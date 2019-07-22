@@ -1,0 +1,200 @@
+Sales Information System:
+
+create database salesInformationSystem;
+use salesInformationSystem;
+
+1> Product:
+create table product(
+product_id int primary key auto_increment,
+product_name varchar(100),
+sellingprice numeric(8,2),
+manufacturer_name varchar(100));
+
+2>Client:
+create table client(
+client_id int primary key auto_increment,
+client_name varchar(100),
+client_address varchar(100),
+city varchar(40),
+pincode int,
+state varchar(40),
+total_balance numeric(10,2));
+
+3>SalesOrder:
+create table salesOrder(
+sales_order_number int primary key auto_increment,
+sales_order_date date,
+client_id int not null,
+foreign key (client_id) references client(client_id),
+salesman_id int not null unique,
+foreign key(salesman_id) references salesman(salesman_id),
+payment_by_party boolean,
+delivery_date date);
+
+4> Salesman:
+create table salesman(
+salesman_id int primary key auto_increment,
+salesman_name varchar(100),
+address varchar(200),
+city varchar(50),
+pincode int,
+state varchar(40),
+salary numeric(8,2),
+delivery_date date,
+total_quantity_ordered int,
+product_rate float);
+
+
+
+Q.10:
+
+a) select client_name,city from client;
+b) select * from product;
+c) select client_name from client where client_name like '_a%';
+d) select * from client where city='pune';
+e) select * from product where sellingprice>2000 and sellingprice<= 5000;
+f) alter table product add new_price numeric(8,2);
+g) alter table salesman change product_rate new_product_rate float;
+h) select * from product order by product_name ASC;
+i) select sales_order_number,sales_order_date from salesOrder;
+j) delete from salesOrder where delivery_date < '2008-08-25';
+k) update salesOrder set delivery_date='16-08-08' where sales_order_number='ON01008';
+l) update client set total_balance='1200' where client_id='CN01003';
+m) Select * from product where product_name='HDD1034' and product_name='DVDRW';
+n) select client_name,city,state from client where state!='Maharashtra';
+o) select * from salesOrder where payment_by_party=False and MONTH(sales_order_date)=3;
+
+
+
+11:
+1> Student:
+create table student(
+roll_number varchar(100) primary key,
+name varchar(100),
+address varchar(200),
+semester varchar(20),
+dept_id int not null,
+foreign key dept_id references department(dept_id),
+CGPA float,
+prg_name varchar(100) not null,
+foreign key prog_name references acadamic_prog(prog_name));
+
+2>Acadamic Programme:
+create table acadamic_prog(
+prog_name varchar(100) primary key,
+duration varchar(20),
+aprogramme_code varchar(70) unique,
+course_id varchar(20) not null,
+foreign key course_id references,
+
+3>Departments:
+create table department(
+dept_id int primary key auto_increment,
+department_code varchar(50) unique,
+department_name varchar(100) unique,
+hod_name varchar(100),
+course_id varchar(20) not null.
+Foreign key course_id references);
+
+4>Teacher:
+create table teacher(
+employee_code varchar(40) unique,
+name varchar(100),
+dept_id int,
+Foreign key dept_id references department(dept_id),
+designation varchar(100));
+
+5>Course:
+create table course(
+course_id varchar(50) primary key,
+title varchar(100),
+credit int);
+
+6> Grades:
+create table grades(
+id int priamry key ,
+student_id int not null,
+course_id varchar(50) not null,
+forign key course_id references course(course_id),
+foreign key student_id references student(roll_number));
+
+7> course_offered
+create table course_offered(
+semester_date date unique,
+dept_id int not null,
+course_id int not null,
+employee_id varchar(40) not null,
+foreign key dept_id references department(dept_id),
+foreign key course_id references course(course_id),
+foreign key employee_id references teacher(employee_code));
+
+
+Q-11:
+
+a) select student.name,student.city,course.title from student inner join 
+	department on student.dept_id=department.dept_id inner join 
+	course on department.course_id=course.course_id where department_name='CSE';
+b) select teacher.count(employee_code) from teacher inner join department on teacher.dept_id=department.dept_id where department_name='CSE';
+c) select course.title from course inner join department on department.course_id=course_id where department_name='CSE';
+d) select * from student where semester='fall';
+e) select * from student where CGPA >= 8.5;
+f) select course_offered.count(course_id) from course_offered inner join department on course_offered.dept_id=department.dept_id inner join student on student.dept_id=department.dept_id;
+g) select * from student where prog_name='MCA' or prog_name='M.Tech';
+h) select student.count(roll_number) from student inner join department on student.dept_id=department.dept_id inner join course on department.course_id=course.course_id where title='DBMS';
+i) select student.semester from student inner join department on student.dept_id=department.dept_id inner join course on department.course_id=course.course_id where title='DBMS';
+j) select name from student order by name ASC;
+k) update student set address='Pune' where roll_number='CSI08002';
+l) select sum(credit) from course where title like'MCA';
+m) select * from course inner join department on course.course_id=department.course.id where department_name='computer science';
+n) select * from student where address='Pune';
+o) select count(dept_id) from department;
+
+
+
+8:
+
+1) select Aircraft.aname from Aircraft inner join Certified on 
+	Aircraft.aid=Certified.aid inner join Employees on Certified.eid=Employees.eid 
+	where Employees.salary>80000;
+
+2) select Certified.eid,Aircraft.max(cruisingrange) from Aircraft inner
+   join Certified on Aircraft.aid=Certified.aid where count(eid)>3;
+
+3) select Employees.ename from Employees where Employees.salary< (select Flights.min(price) 
+	from Flights where Flights.from='Los Angeles' and to='Honolulu';
+
+4) select Aircraft.aname,avg(Employees.salary) from Aircraft
+	 inner join Certified on Aircraft.aid=Certified.aid inner join Employees
+	 on Certified.eid=Employeed.eid where Aircraft.cruisingrange>1000;
+
+5) select Employees.ename from Employees inner join Certified on Certified.eid=Employees.eid
+	 inner join Aircraft on Aircrafft.aid=Certified.aid where Aircraft.aname='Boeing';
+
+6) select Aircraft.aid from Aircraft inner join Flights on Flights.aid=Aircraft.aid
+	 where Flights.from='Los Angeles' and Flights.to='Chicago';
+
+7) select Flights.to,Flights.from from FLights inner join Certified on Certified.aid=Flights.aid
+	inner join Employees on Employees.eid=Certified.eid where Employees.salary>100000;
+
+8) select Employees.ename from Employees inner join Certified on Certified.eid=Employees.eid inner join 
+	Aircraft on Aircraft.aid=Certified.aid where Aircraft.cruisingrange>3000 and aname!='Boeing';
+
+9) select Flights.departs from Flights 
+	where Flights.from='Madison' and Flights.to='New York' and Flights.arrives='6 p.m';
+
+10) select (select avg(e1.salary) from Employees as e1 inner join Certified on Certified.eid=e1.eid)-(select avg(e2.salary) from Employees as e2) from Employees;
+
+11) select e1.ename,e1.salary from Employees as e1 where e1.salary> (select avg(Employees.salary) from Employees inner join Certified on Employees.eid=Certified.eid); 
+
+12) select e1.ename from Employees inner join Certified on Certified.eid=Employees.eid inner join Aircreaft
+	 on Certified.aid=Aircraft.aid where Aircraft.cruisingrange>1000;
+
+13) select e1.ename from Employees inner join Certified on Certified.eid=Employees.eid inner join Aircreaft
+	 on Certified.aid=Aircraft.aid where Aircraft.cruisingrange>1000 and count(Certified.aid)>=2;
+
+14) select e1.ename from Employees inner join Certified on Certified.eid=Employees.eid inner join Aircreaft
+	 on Certified.aid=Aircraft.aid where Aircraft.cruisingrange>1000 and Aircraft.aname='Boeing';
+
+
+ 
+	
